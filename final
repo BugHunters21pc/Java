@@ -684,4 +684,121 @@ public class HelloController extends Application {
     }
 }
 
+$$$$$$$$$$$$$$$$$$$$$$$$$$ CHATGPT $$$$$$$$$$$$$$$$$$$$$$$$$$4 THREAD
 
+
+public class MyRunnable implements Runnable {
+    public void run() {
+        // code to be executed in this thread
+    }
+}
+
+// create the runnable and the thread
+MyRunnable runnable = new MyRunnable();
+Thread thread = new Thread(runnable);
+
+// start the thread
+thread.start();
+
+////////////////////////////////////
+
+
+public class MyThread extends Thread {
+    public void run() {
+        // code to be executed in this thread
+    }
+}
+
+// create and start the thread
+MyThread thread = new MyThread();
+thread.start();
+
+
+////////////////////////////////////
+
+public class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+}
+
+
+Person person = new Person("John", 30);
+
+This creates a new Person object with the name "John" and age 30.
+
+//////////////////////////////////////////
+
+public class MySubclass extends MyClass {
+    // subclass variables and methods
+}
+
+inheritance
+
+////////////////////////////////////
+
+public class MyClass {
+    private int myVariable;
+
+    public int getMyVariable() {
+        return myVariable;
+    }
+
+    public void setMyVariable(int newValue) {
+        myVariable = newValue;
+    }
+}
+
+encapsulation 
+
+///////////////////////////////////////
+
+CLASS
+
+// Define a class
+class Car {
+    // Declare instance variables
+    String model;
+    int year;
+
+    // Declare a constructor
+    public Car(String model, int year) {
+        this.model = model;
+        this.year = year;
+    }
+
+    // Declare methods
+    public void start() {
+        System.out.println("Starting the car...");
+    }
+
+    public void stop() {
+        System.out.println("Stopping the car...");
+    }
+}
+
+// Use the class
+public class Main {
+    public static void main(String[] args) {
+        // Create an object of the Car class
+        Car myCar = new Car("Ford Mustang", 2022);
+
+        // Call methods on the object
+        myCar.start();
+        myCar.stop();
+    }
+}
+
+//////////////////////////////////////////////
