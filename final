@@ -2148,3 +2148,266 @@ class ThreadPool {
     }
 }
 
+/////////////////// last java.txt sent by thara ///////////////////////
+
+package com.example.practice;
+
+import javafx.application.Application;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ButtonBar;
+import java.util.Optional;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+import java.io.*;
+
+public class FileEditorApp extends Application {
+    private TextArea textArea;
+    private File currentFile;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        BorderPane root = new BorderPane();
+
+        // Create the text area
+        textArea = new TextArea();
+        root.setCenter(textArea);
+
+        // Create the menu bar
+        MenuBar menuBar = new MenuBar();
+        root.setTop(menuBar);
+
+        // Create the File menu
+        Menu fileMenu = new Menu("File");
+
+        MenuItem newMenuItem = new MenuItem("New");
+        newMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                handleNew();
+            }
+        });
+        fileMenu.getItems().add(newMenuItem);
+
+        MenuItem openMenuItem = new MenuItem("Open");
+        openMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                handleOpen();
+            }
+        });
+        fileMenu.getItems().add(openMenuItem);
+
+        MenuItem saveMenuItem = new MenuItem("Save");
+        saveMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                handleSave();
+            }
+        });
+        fileMenu.getItems().add(saveMenuItem);
+
+        MenuItem exitMenuItem = new MenuItem("Exit");
+        exitMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Platform.exit();
+            }
+        });
+        fileMenu.getItems().add(exitMenuItem);
+
+        menuBar.getMenus().add(fileMenu);
+
+        // Create the Help menu
+        Menu helpMenu = new Menu("Help");
+
+        MenuItem aboutMenuItem = new MenuItem("About");
+        aboutMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("About File Editor");
+                alert.setHeaderText(null);
+                alert.setContentText("File Editor v1.0");
+                alert.showAndWait();
+            }
+        });
+        helpMenu.getItems().add(aboutMenuItem);
+
+        menuBar.getMenus().add(helpMenu);
+
+        // Create the buttons
+        Button newButton = new Button("New");
+        newButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                handleNew();
+            }
+        });
+
+        Button openButton = new Button("Open");
+        openButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                handleOpen();
+            }
+        });
+
+        Button saveButton = new Button("Save");
+        saveButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                handleSave();
+            }
+        });
+
+        VBox buttonBox = new VBox();
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(10));
+        buttonBox.setSpacing(10);
+        buttonBox.getChildren().addAll(newButton, openButton, saveButton);
+
+        root.setRight(buttonBox);
+
+        // Create the scene
+        Scene scene = new Scene(root,600, 400);
+        primaryStage.setTitle("File Editor");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void handleNew() {
+        if (currentFile != null && !textArea.getText().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Save changes");
+            alert.setHeaderText("Do you want to save changes to " + currentFile.getName() + "?");
+
+            ButtonType saveButton = new ButtonType("Save");
+            ButtonType discardButton = new ButtonType("Don't Save");
+            ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            alert.getButtonTypes().setAll(saveButton, discardButton, cancelButton);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == saveButton) {
+                handleSave();
+            } else if (result.get() == discardButton) {
+                textArea.clear();
+                currentFile = null;
+            }
+        } else {
+            textArea.clear();
+            currentFile = null;
+        }
+    }
+
+    private void handleOpen() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open File");
+
+        if (currentFile != null) {
+            fileChooser.setInitialDirectory(currentFile.getParentFile());
+        }
+
+        File selectedFile = fileChooser.showOpenDialog(textArea.getScene().getWindow());
+
+        if (selectedFile != null) {
+            try {
+                FileReader fileReader = new FileReader(selectedFile);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+                String line;
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(line).append("\n");
+                }
+
+                textArea.setText(stringBuilder.toString());
+                currentFile = selectedFile;
+
+                fileReader.close();
+                bufferedReader.close();
+            } catch (FileNotFoundException e) {
+                showErrorAlert("File not found", "The selected file was not found.");
+            } catch (IOException e) {
+                showErrorAlert("File error", "An error occurred while reading the file.");
+            }
+        }
+    }
+
+    private void handleSave() {
+        if (currentFile == null) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save File");
+
+            File selectedFile = fileChooser.showSaveDialog(textArea.getScene().getWindow());
+
+            if (selectedFile != null) {
+                currentFile = selectedFile;
+            }
+        }
+
+        if (currentFile != null) {
+            Task<Void> task = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        FileWriter fileWriter = new FileWriter(currentFile);
+                        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+                        String text = textArea.getText();
+                        String[] lines = text.split("\n");
+
+                        for (int i = 0; i < lines.length; i++) {
+                            bufferedWriter.write(lines[i]);
+                            if (i != lines.length - 1) {
+                                bufferedWriter.newLine();
+                            }
+                        }
+
+                        bufferedWriter.close();
+                        fileWriter.close();
+                    } catch (IOException e) {
+                        showErrorAlert("File error", "An error occurred while saving the file.");
+                    }
+
+                    return null;
+                }
+            };
+
+            Thread thread = new Thread(task);
+            thread.setDaemon(true);
+            thread.start();
+        }
+    }
+
+    private void showErrorAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+}
+
