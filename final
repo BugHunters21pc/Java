@@ -2411,3 +2411,64 @@ public class FileEditorApp extends Application {
 
 }
 
+/////////////////////// implementation of composition ////////////////////
+
+class Building {
+    Room createAnonymousRoom() {
+        return new Room() {
+            @Override
+            void doInRoom() {}
+        };
+    }
+
+    Room createInlineRoom() {
+        class InlineRoom implements Room {
+            @Override
+            void doInRoom() {}
+        }
+        return new InlineRoom();
+    }
+    
+    Room createLambdaRoom() {
+        return () -> {};
+    }
+
+    interface Room {
+        void doInRoom();
+    }
+}
+
+////////////////// aggregation //////////////
+
+class Wheel {
+    Car car;
+}
+
+class Car {
+    List<Wheel> wheels;
+}
+
+///////////
+
+class Car {
+    List<Wheel> wheels;
+    static class Wheel {}
+}
+
+///////////////association ///////////
+class Child {
+    Mother mother;
+}
+
+class Mother {
+    List<Child> children;
+}
+
+
+///////////////////
+class Child {}
+
+class Mother {
+    List<Child> children;
+}
+/////////////
