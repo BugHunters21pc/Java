@@ -1750,3 +1750,401 @@ public class FileEditorApp extends Application {
         alert.showAndWait();
     }
 }
+
+////////////////////////////////////// KAAVYA'S CODE //////////////////////////////
+
+package com.example.user_authentication;
+
+
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.regex.Pattern;
+
+public class Lab_exam_javafx extends Application {
+
+
+    Scene scene;
+    Button button1;
+    Button button2;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+
+        Label label1;
+        Label label2;
+        Label label3;
+        Label label4;
+        Label submit;
+
+        label1 = new Label("Name");
+        label2 = new Label("Roll no");
+        label3 = new Label("Department");
+        label4 = new Label("Year");
+        submit = new Label("");
+
+        TextField textField1 = new TextField();
+        TextField textField2 = new TextField();
+        TextField textField3 = new TextField();
+
+        ChoiceBox<Integer> box = new ChoiceBox<>();
+        box.getItems().add(1);
+        box.getItems().add(2);
+        box.getItems().add(3);
+        box.getItems().add(4);
+        box.getItems().add(5);
+
+        box.setValue(1);
+
+        button1 = new Button("submit");
+        button2 = new Button("clear");
+
+
+        GridPane root = new GridPane();
+        root.setHgap(10);
+        root.setVgap(10);
+
+        root.setPadding(new Insets(100,100,100,100));
+
+        scene = new Scene(root,500,500);
+
+        primaryStage.setScene(scene);
+
+
+        root.addRow(0,label1,textField1);
+        root.addRow(1,label2,textField2);
+        root.addRow(2,label3,textField3);
+        root.addRow(3,label4,box);
+        root.addRow(4,button1,button2);
+        root.addRow(6,submit);
+
+        primaryStage.setTitle("LabExam");
+        primaryStage.show();
+
+        button1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                try
+                {
+//                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                    alert.setTitle("Information Dialog");
+//                    alert.setHeaderText("You have selected:");
+
+                    VBox rot = new VBox();
+                    rot.getChildren().addAll(button1);
+
+                    // create a new window and set the layout
+                    Scene scene1 = new Scene(rot, 400, 300);
+                    Stage newWindow = new Stage();
+                    newWindow.setTitle("Certificate Generator");
+                    newWindow.setScene(scene1);
+
+//                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                    alert.setTitle("Information Dialog");
+//                    alert.setHeaderText("You have selected:");
+//                    alert.showAndWait();
+
+                    String roll = new String();
+                    roll = textField2.getText();
+
+                    //System.out.println(Pattern.matches("^21[A-Za-z]{2}\\d{2}",roll));
+
+                    int test = 1;
+
+
+                    if((Pattern.matches("^21[A-Za-z]{2}\\d{2}",roll))==true)
+                    {
+                        System.out.println("reached");
+                        if(textField1.getText().isEmpty()==true && textField3.getText().isEmpty()==true)
+                        {
+                            submit.setText("Enter all the details");
+                            submit.setStyle("-fx-text-fill: red;");
+                            System.out.println("reached3");
+                            root.getRowConstraints().remove(6);
+
+                            root.addRow(6,submit);
+                        }
+                        else {
+                            submit.setText("submitted successfully");
+                            submit.setStyle("-fx-text-fill: green;");
+
+                            
+                            // show the new window
+                            newWindow.show();
+                            //alert.showAndWait();
+                            System.out.println("reached2");
+                            test=0;
+                            root.getRowConstraints().remove(6);
+
+                            root.addRow(6,submit);
+
+                            System.exit(0);
+
+
+
+
+
+                        }
+
+
+
+                    }
+                    else {
+                        submit.setText("Invalid Roll no");
+                        submit.setStyle("-fx-text-fill: red;");
+
+
+                        // show the new window
+                        newWindow.show();
+                        System.out.println("reached4");
+                        root.getRowConstraints().remove(6);
+
+                        root.addRow(6,submit);
+                    }
+
+                }
+
+
+                catch (Exception exception)
+                {
+
+                }
+
+
+
+            }
+        });
+
+        button2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                textField1.clear();
+                textField2.clear();
+                textField3.clear();
+
+            }
+        });
+
+    }
+}
+//import javafx.application.Application;
+//import javafx.stage.Stage;
+//import javafx.application.Application;
+//import javafx.stage.Stage;
+//
+//import java.io.File;
+//import javafx.application.Application;
+//import javafx.scene.Scene;
+//import javafx.scene.control.Alert;
+//import javafx.scene.control.Alert.AlertType;
+//import javafx.scene.control.Button;
+//import javafx.scene.layout.StackPane;
+//import javafx.stage.FileChooser;
+//import javafx.stage.Stage;
+//
+//public class Lab_exam_javafx extends Application {
+//
+//    public static void main(String[] args) {
+//        launch(args);
+//    }
+//
+//    @Override
+//    public void start(Stage primaryStage) {
+//        Button btn = new Button("Open a file");
+//        btn.setOnAction(e -> {
+//            try {
+//                FileChooser fileChooser = new FileChooser();
+//                File selectedFile = fileChooser.showOpenDialog(primaryStage);
+//                if (selectedFile != null) {
+//                    Alert alert = new Alert(AlertType.INFORMATION);
+//                    alert.setTitle("Information Dialog");
+//                    alert.setHeaderText("You have selected:");
+//                    alert.setContentText(selectedFile.getAbsolutePath());
+//                    alert.showAndWait();
+//                }
+//            } catch (Exception ex) {
+//                Alert alert = new Alert(AlertType.ERROR);
+//                alert.setTitle("Error Dialog");
+//                alert.setHeaderText("An error has occurred");
+//                alert.setContentText(ex.getMessage());
+//                alert.showAndWait();
+//            }
+//        });
+//
+//        StackPane root = new StackPane();
+//        root.getChildren().add(btn);
+//        Scene scene = new Scene(root, 300, 250);
+//        primaryStage.setScene(scene);
+//        primaryStage.setTitle("File Chooser Example");
+//        primaryStage.show();
+//    }
+//
+//}
+//
+//
+///////////////////////////////// preetham code //////////////////////////////
+
+package com.example.preethamcode;
+import javafx.application.Application;
+import javafx.stage.Stage;
+
+import java.io.File;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+public class FileChooseExample extends Application {
+
+    @Override
+    public void start(Stage primaryStage) {
+        Button btn = new Button("Open a file");
+        btn.setOnAction(e -> {
+            try {
+                FileChooser fileChooser = new FileChooser();
+                File selectedFile = fileChooser.showOpenDialog(primaryStage);
+                if (selectedFile != null) {
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Information Dialog");
+                    alert.setHeaderText("You have selected:");
+                    alert.setContentText(selectedFile.getAbsolutePath());
+                    alert.showAndWait();
+                }
+            } catch (Exception ex) {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setHeaderText("An error has occurred");
+                alert.setContentText(ex.getMessage());
+                alert.showAndWait();
+            }
+        });
+
+        StackPane root = new StackPane();
+        root.getChildren().add(btn);
+        Scene scene = new Scene(root, 300, 250);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("File Chooser Example");
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
+
+
+////////////////////////THREAD ////////////////////////////
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ThreadPoolExample {
+
+    public static void main(String[] args) {
+        int numOfThreads = 3;
+        ThreadPool threadPool = new ThreadPool(numOfThreads);
+
+        for (int i = 1; i <= 5; i++) {
+            try {
+                threadPool.submit(new Task("Task " + i));
+            } catch (InterruptedException e) {
+                System.err.println("Exception occurred while submitting task: " + e.getMessage());
+            }
+        }
+    }
+}
+
+class Task implements Runnable {
+
+    private String taskName;
+
+    public Task(String taskName) {
+        this.taskName = taskName;
+    }
+
+    @Override
+    public void run() {
+        System.out.println(Thread.currentThread().getName() + " executing " + taskName);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            System.err.println("Exception occurred while executing task: " + e.getMessage());
+        }
+        System.out.println(Thread.currentThread().getName() + " finished " + taskName);
+    }
+}
+
+class ThreadPool {
+
+    private final int numOfThreads;
+    private final List<WorkerThread> workerThreads;
+    private final List<Runnable> taskQueue;
+
+    public ThreadPool(int numOfThreads) {
+        this.numOfThreads = numOfThreads;
+        workerThreads = new ArrayList<>();
+        taskQueue = new ArrayList<>();
+        for (int i = 0; i < numOfThreads; i++) {
+            workerThreads.add(new WorkerThread());
+        }
+        for (Thread thread : workerThreads) {
+            thread.start();
+        }
+    }
+
+    public synchronized void submit(Runnable task) throws InterruptedException {
+        if (workerThreads.isEmpty()) {
+            taskQueue.add(task);
+        } else {
+            WorkerThread workerThread = workerThreads.remove(0);
+            workerThread.setTask(task);
+        }
+    }
+
+    private class WorkerThread extends Thread {
+        private Runnable task;
+
+        public void setTask(Runnable task) {
+            this.task = task;
+            synchronized (this) {
+                notify();
+            }
+        }
+
+        @Override
+        public void run() {
+            while (true) {
+                synchronized (this) {
+                    while (task == null) {
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {
+                            System.err.println("Exception occurred while executing task: " + e.getMessage());
+                        }
+                    }
+                    task.run();
+                    task = null;
+                    workerThreads.add(this);
+                }
+            }
+        }
+    }
+}
+
