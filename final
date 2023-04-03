@@ -2439,8 +2439,82 @@ class Building {
         void doInRoom();
     }
 }
+//////////////////////////////
+
+public class Car {
+    private Engine engine; // Composition - Car has an Engine object
+    
+    public Car() {
+        this.engine = new Engine(); // Creating an Engine object inside the Car constructor
+    }
+    
+    public void start() {
+        engine.start(); // Delegating the start method to the Engine object
+    }
+    
+    public void stop() {
+        engine.stop(); // Delegating the stop method to the Engine object
+    }
+}
+
+public class Engine {
+    public void start() {
+        // Code to start the engine
+    }
+    
+    public void stop() {
+        // Code to stop the engine
+    }
+}
+
 
 ////////////////// aggregation //////////////
+public class School {
+    private List<Student> students; // Aggregation - School has a List of Student objects
+    
+    public School(List<Student> students) {
+        this.students = students; // Assigning the List of Student objects to the students member variable
+    }
+    
+    public void addStudent(Student student) {
+        students.add(student); // Adding a new Student object to the List
+    }
+    
+    public void removeStudent(Student student) {
+        students.remove(student); // Removing a Student object from the List
+    }
+}
+
+public class Student {
+    private String name;
+    
+    public Student(String name) {
+        this.name = name;
+    }
+    
+    public String getName() {
+        return name;
+    }
+}
+
+// Creating a new School object with two Student objects
+List<Student> students = new ArrayList<>();
+students.add(new Student("Alice"));
+students.add(new Student("Bob"));
+School school = new School(students);
+
+// Adding a new Student object to the School object
+school.addStudent(new Student("Charlie"));
+
+// Removing a Student object from the School object
+school.removeStudent(students.get(0));
+
+// Printing the names of all the Student objects in the School object
+for (Student student : school.getStudents()) {
+    System.out.println(student.getName());
+}
+/////////////////////////////
+
 
 class Wheel {
     Car car;
@@ -2474,3 +2548,44 @@ class Mother {
     List<Child> children;
 }
 /////////////
+DEPENDANCY 
+
+public class OrderProcessor {
+    private PaymentProcessor paymentProcessor; // Dependency - OrderProcessor depends on PaymentProcessor
+    
+    public OrderProcessor(PaymentProcessor paymentProcessor) {
+        this.paymentProcessor = paymentProcessor; // Assigning the PaymentProcessor object to the paymentProcessor member variable
+    }
+    
+    public void processOrder(Order order) {
+        paymentProcessor.processPayment(order.getTotal()); // Using the PaymentProcessor object to process the payment
+        // Code to process the order...
+    }
+}
+
+public interface PaymentProcessor {
+    void processPayment(double amount);
+}
+
+public class CreditCardProcessor implements PaymentProcessor {
+    public void processPayment(double amount) {
+        // Code to process the payment using a credit card...
+    }
+}
+
+public class PayPalProcessor implements PaymentProcessor {
+    public void processPayment(double amount) {
+        // Code to process the payment using PayPal...
+    }
+}
+
+// Creating a new OrderProcessor object that depends on a CreditCardProcessor object
+PaymentProcessor paymentProcessor = new CreditCardProcessor();
+OrderProcessor orderProcessor = new OrderProcessor(paymentProcessor);
+
+// Creating a new Order object and processing it using the OrderProcessor object
+Order order = new Order(100.00);
+orderProcessor.processOrder(order);
+
+
+//////////////////////////////////////////////////////////
